@@ -82,5 +82,17 @@ public class Book {
 
 
   // DESTROY //
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM students WHERE id = :id;";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
 
+      String enrollmentsQuery = "DELETE FROM enrollments WHERE student_id = :studentId";
+      con.createQuery(enrollmentsQuery)
+        .addParameter("studentId", this.getId())
+        .executeUpdate();
+      }
+    }
 }
